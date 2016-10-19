@@ -12,14 +12,17 @@ def open_url(url):
                    'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36')
     response = request.urlopen(url)
     if response.getcode() == 200:
-        content = response.read()
+        content = response.read().decode('utf-8')
         return content
 
 
 def down_img(url):
     content = open_url(url)
+    # print(content)
     soup = BeautifulSoup(content, 'html.parser')
-    urls = soup.find_all('img', src=re.compile('data-original'))
+    # print(soup.find_all('img'))
+    urls = soup.find_all('img', src=re.compile('https://'))
+    print(len(urls))
     count = 1
     for url1 in urls:
         # print(url1.get('data-original'))
@@ -33,6 +36,6 @@ def down_img(url):
 
 
 if __name__ == '__main__':
+    down_img('https://www.zhihu.com/question/49075464')
     # con = open_url('https://www.zhihu.com/question/49075464')
     # print(con)
-    down_img('https://www.zhihu.com/question/49075464')
